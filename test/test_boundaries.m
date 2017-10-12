@@ -1,0 +1,25 @@
+addpath('..');
+clear; close all;
+fx = @(x,y) cos(2*pi*x).*cos(2*pi*y);
+N = 128; gcw = 10;
+dx = 1/N;
+x_side = 0-gcw*dx:dx:1+gcw*dx;
+x_cent = 0.5*(x_side(2:end)+x_side(1:end-1));
+[xx_cent,yy_cent] = meshgrid(x_cent, x_cent);
+[xx_sidex,yy_sidex] = meshgrid(x_side,x_cent);
+[xx_sidey,yy_sidey] = meshgrid(x_cent,x_side);
+ff_sidey = fx(xx_sidey(gcw+1:end-gcw,gcw+1:end-gcw),yy_sidey(gcw+1:end-gcw,gcw+1:end-gcw));
+ff_sidex = fx(xx_sidex(gcw+1:end-gcw,gcw+1:end-gcw),yy_sidex(gcw+1:end-gcw,gcw+1:end-gcw));
+ff = fx(xx_cent(gcw+1:end-gcw,gcw+1:end-gcw),yy_cent(gcw+1:end-gcw,gcw+1:end-gcw));
+
+ff_new = fillBoundariesCenter(ff,gcw);
+[ff_new_sidex, ff_new_sidey] = fillBoundariesSide(ff_sidex,ff_sidey,gcw);
+ff_full_sidex = fx(xx_sidex,yy_sidex);
+ff_full_sidey = fx(xx_sidey,yy_sidey);
+ff_full = fx(xx_cent,yy_cent);
+figure(1); clf;
+surf(xx_cent,yy_cent,abs(ff_full-ff_new),'edgecolor','none');
+figure(2); clf;
+surf(xx_sidex,yy_sidex,abs(ff_full_sidex-ff_new_sidex));
+figure(3); clf; 
+surf(xx_sidey,yy_sidey,abs(ff_full_sidey-ff_new_sidey));
