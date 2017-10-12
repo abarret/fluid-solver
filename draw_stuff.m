@@ -1,5 +1,17 @@
 function draw_stuff(u, v, p, sxx, syy, sxy, t)
-% Currently blank...
+% Draws a 4 subplots on a single figure. Currently draws the velocity
+% vector field, the magnitude of the velocity, the pressure, and the
+% divergence of the velocity field.
+% Requires an extra stress field that is currently not used. This is a
+% relic of an oldroyd-B solve code that might come back.
+% Inputs:
+%   u   : side-centered x velocity
+%   v   : side-centered y velocity
+%   p   : cell-centered pressure
+%   sxx : NOT USED
+%   syy : NOT USED
+%   sxy : NOT USED
+%   t   : current time
 global dx; global dy;
 global Lx; global Ly;
 x_side = 0:dx:Lx; y_side = 0:dy:Ly;

@@ -1,5 +1,11 @@
 function vals = advect(q,u,v)
 % Computes u*grad(q) using a wave propagation method
+% Inputs:
+%   q : cell centered quantity to be advected
+%   u : side-centered x velocity component
+%   v : side-centered y velocity component
+% Outputs:
+%   vals : [u v]*grad(q)
 k = 3; gcw = k;
 global dx; global dy;
 current_vals = fillBoundariesCenter(q, gcw);
@@ -15,7 +21,9 @@ wave_right_y = min(v(2:end,:),0.0).*(low_vals_y(2:end,:)-up_vals_y(2:end,:));
 wave_center_y = (v(1:end-1,:)+v(2:end,:))*0.5.*(up_vals_y(2:end,:) - low_vals_y(1:end-1,:));
 
 vals = -1.0/dx*(wave_left_x + wave_right_x + wave_center_x) - 1.0/dy*(wave_left_y + wave_right_y + wave_center_y);
-vals = vals;
+% Multiply by zero because this is how the wave propagation algorithm was
+% written. Really we should just get rid of -1 in above equation...
+vals = -vals;
 end
 
 function [left_vals_x, right_vals_x, low_vals_y, up_vals_y] = ...

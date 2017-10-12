@@ -1,4 +1,15 @@
 function [x, r0_norm, out, in] = fgmres(A,b,x0,M,rtol,nMax_in,nMax_out)
+% Solves A*x = b using the preconditioner M using a flexible gmres
+% algorithm.
+% Inputs:
+%   A        : function handle that computes A*x
+%   b        : rhs vector
+%   x0       : initial guess for solution.
+%   M        : preconditioner that computes M^-1*b (NOTE preconditioner 
+%              acts on the residual, not the solution)
+%   rtol     : tolerance for solver
+%   nMax_in  : Max number of inner solver iterations.
+%   nMax_out : Max number of outer solver interations.
 for out = 1:nMax_out
     % initialize vectors
     r0 = b-A(x0);

@@ -1,5 +1,10 @@
 function cell_data = sideToCell(sideX,sideY)
 % Converts cell data to side data using linear interpolation
+% Inputs:
+%   sideX : x-side data
+%   sideY : y-side data
+% Outputs:
+%   cell_data : vector valued cell-centered data.
 [~,Ny] = size(sideY);
 [Nx,~] = size(sideX);
 cell_data = zeros(Nx,Ny,2);
