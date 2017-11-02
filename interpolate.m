@@ -3,15 +3,15 @@ function u_new = interpolate(u,ratio,dx,dy)
 % Assume u is cell centered
 [r,c] = size(u);
 u_new = zeros(r*2,c*2);
-u_temp = zeros(r*2+2,c*2);
+u_temp = zeros(r*2,c+2);
 u = fillBoundariesCenter(u,1);
 % Interpolate in one dimension...
-for i = 1:length(u(:,1))
+for i = 1:length(u_temp(1,:))
     u_temp(:,i) = interpolate1D(u(:,i),ratio,dx,dy);
 end
 % Interpolate in other dimension...
-for i = 1:length(u_temp(1,:))
-    u_new(:,i) = interpolate1D(u_temp(:,i),ratio,dx,dy);
+for i = 1:length(u_new(:,1))
+    u_new(i,:) = interpolate1D(u_temp(i,:),ratio,dx,dy);
 end
 end
 
