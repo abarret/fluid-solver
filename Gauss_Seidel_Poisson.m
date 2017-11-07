@@ -1,11 +1,10 @@
-function u = Gauss_Seidel_Poisson(u,b,tol,Nmax)
-global dx; global dy;
+function [u,r] = Gauss_Seidel_Poisson(u,b,tol,Nmax,dx,dy)
 [r,c] = size(u);
 u_temp = zeros(r,c);
 u_temp_2 = zeros(r,c);
 u_temp = u;
 err = b - LaplacianCenter(u_temp,dx,dy);
-err = sqrt(sum(sum(err.^2)));
+err = dx*dy*sqrt(sum(sum(err.^2)));
 n = 1;
 while(err > tol)
     u_temp = fillBoundariesCenter(u_temp,1);
@@ -20,7 +19,7 @@ while(err > tol)
     u_temp = u_temp_2(2:end-1,2:end-1);
     u_temp_2 = u_temp;
     err = b - LaplacianCenter(u_temp,dx,dy);
-    err = sqrt(sum(sum(err.^2)));
+    err = dx*dy*sqrt(sum(sum(err.^2)));
     fprintf("Residual at step %d is %f \n",n,err);
     if (n >= Nmax)
         break;
@@ -28,4 +27,5 @@ while(err > tol)
     n = n + 1;
 end
 u = u_temp;
+r = b - LaplacianCenter(u,dx,dy);
 end
