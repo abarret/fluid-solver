@@ -19,8 +19,8 @@ while(err > tol)
     u_temp = u_temp_2(2:end-1,2:end-1);
     u_temp_2 = u_temp;
     err = b - LaplacianCenter(u_temp,dx,dy);
-    err = dx*dy*sqrt(sum(sum(err.^2)));
-    fprintf("Residual at step %d is %f \n",n,err);
+    err = dx*dy*sum(sum(abs(err)));
+%    fprintf("Residual at step %d is %f \n",n,err);
     if (n >= Nmax)
         break;
     end

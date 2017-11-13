@@ -9,7 +9,7 @@ while(r ~= 4 || c ~= r)
     dx_temp = dx_temp*2;
     dy_temp = dy_temp*2;
     [r,c] = size(u_temp{i+1});
-    i = i+1
+    i = i+1;
 end
 u_temp{end} = Gauss_Seidel_Poisson(u_temp{end},b_temp{end},tol,nMax,dx_temp,dy_temp);
 for j = i-1:-1:1
