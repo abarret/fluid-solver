@@ -10,6 +10,11 @@ function [x, r0_norm, out, in] = fgmres(A,b,x0,M,rtol,nMax_in,nMax_out)
 %   rtol     : tolerance for solver
 %   nMax_in  : Max number of inner solver iterations.
 %   nMax_out : Max number of outer solver interations.
+% Outputs:
+%   x        : Solution vector
+%   r0_norm  : L2 norm of the residual
+%   out      : Number of outer iterations
+%   in       : Number of inner iterations
 for out = 1:nMax_out
     % initialize vectors
     r0 = b-A(x0);

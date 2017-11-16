@@ -1,4 +1,15 @@
 function [u,r] = Gauss_Seidel_Poisson(u,b,tol,Nmax,dx,dy)
+% Solves Poisson equation using Gauss Seidel iterations
+% INPUTS:
+%   u    : Initial guess
+%   b    : RHS vector
+%   tol  : Tolerance level
+%   Nmax : Max iterations
+%   dx   : Grid spacing in x-direction
+%   dy   : Grid spacing in y-direction
+% OUTPUTS:
+%   u    : Final solution
+%   r    : Residual
 [r,c] = size(u);
 u_temp = zeros(r,c);
 u_temp_2 = zeros(r,c);

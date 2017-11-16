@@ -1,4 +1,8 @@
 function u_new = restrict(u,ratio,dx,dy)
+% Function to restrict u to a coarser grid.
+% Uses the transpose of the interpolate function...
+% NOTE: ratio NOT CURRENTLY USED. Only restricts
+% to grid half as fine.
 [r,c] = size(u);
 u_new = zeros(r/2,c/2);
 u_temp = zeros(r/2,c+2);
@@ -14,5 +18,6 @@ end
 end
 
 function u_new = restrict1D(u,ratio,dx)
+% One dimensional restriction.
 u_new = 1/8*u(1:2:end-3)+3/8*u(2:2:end-2)+3/8*u(3:2:end-1)+1/8*u(4:2:end);
 end

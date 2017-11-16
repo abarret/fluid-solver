@@ -20,14 +20,18 @@ fu = reshape(fu, Ny, Nx);
 fv = reshape(fv, Ny, Nx);
 fp = reshape(fp, Ny, Nx);
 % First solve for velocity
-%u = gmres(@velSolveU,fu(:),[],1.0e-2,25);
+% X-direction velocity solver. Again, we would like to use a fmg
+% preconditioner here. Should be easily adapted from cell-centered one,
+% just needs to be *side* centered. 
 [u,~,res,iter] = pcg(@velSolveU,fu(:),1.0e-2,25,[]);
 u = reshape(u,Ny,Nx);
 fprintf("Solved velocity equation in x-direction with residual %f in %d iterations.\n",res,iter);
 % Add in extra row for boundary conditions. Note this is only needed in
 % periodic boundary condtions.
 u = [u, u(:,1)];
-%v = gmres(@velSolveV,fv(:),[],1.0e-2,25);
+% Y-direction velocity solver. Again, we would like to use a fmg
+% preconditioner here. Should be easily adapted from cell-centered one,
+% just needs to be *side* centered.
 [v,~,res,iter] = pcg(@velSolveV,fv(:),1.0e-2,25,[]);
 v = reshape(v,Ny,Nx);
 fprintf("Solved velocity equation in y-direction with residual %f in %d iterations.\n",res,iter);
@@ -37,13 +41,8 @@ v = [v; v(1,:)];
 % Project velocity onto certain field. Note that we don't require the
 % divergence of the velocity field to be 0, but whatever is in fp
 rhs_p = -rho/dt*(fp+DivergenceStoC(u,v,dx,dy));
-% Solve poisson problem for phi
-% Preconditioner....
-%L = ichol(sparse(getA(@poissonSolve)));
-% pcg/gmres doesn't make much of a difference. We really need a better
-% preconditioner here. Some kind of multigrid algorithm would be ideal.
+% Solve poisson problem for phi.
 [phi,~,res,iter] = pcg(@poissonSolve,rhs_p(:),1.0e-2,25,@fmg_wrapper);
-%phi = gmres(@poissonSolve,rhs_p(:),50,1.0e-2,500,L,L');
 phi = reshape(phi,Ny,Nx);
 fprintf("Solved pressure equation with residual %f in %d iterations.\n",res,iter);
 % Take appropriate gradients...

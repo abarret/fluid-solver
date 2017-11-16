@@ -1,4 +1,9 @@
 function u_new = interpolate(u,ratio,dx,dy)
+% Interpolates u onto finer grid using linear interpolation
+% in each dimension. Used for multigrid.
+% NOTE: ratio currently has no effect. Assumes we are
+% interpolating onto a grid twice as large.
+
 % Assume ratio is 2 for now
 % Assume u is cell centered
 [r,c] = size(u);

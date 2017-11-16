@@ -1,5 +1,6 @@
 function [u_new, v_new] = fillBoundariesSide(u, v, gcw)
 % Fills ghost cells using periodic boundary conditions
+% for side centered vector field (u,v)
 
 [r,c] = size(u);
 u_new = zeros(r+2*gcw,c+2*gcw);

@@ -1,4 +1,6 @@
 clear;
+% We need a few global variables. These should be double checked
+% for consistency. Some are inputs to functions...
 global Lx; global Ly;
 global dx; global dy;
 global rho;
@@ -7,7 +9,9 @@ global lambda;
 global Nx; global Ny;
 global dt; global is_periodic;
 counter = 0;
+% Flag to check periodicity. Not currently used.
 is_periodic = 1;
+% Convergence tests on N....
 for N = [32 64 128]
 counter = counter + 1;
 Nx = N; Ny = N;
@@ -17,6 +21,8 @@ rho = 1.0;%1.0e-8;
 mu = 1.0e-2; mup = 0.0;
 lambda = 0.1;
 
+% Taylor vortices as exact solution.
+% NOTE: sxx, syy, sxy are NOT USED BUT NECESSARY.
 u_exact = @(x,y,t) 1-2*exp(-8*pi*pi*mu/rho*t)*sin(2*pi*(y-t)).*cos(2*pi*(x-t));
 v_exact = @(x,y,t) 1+2*exp(-8*pi*pi*mu/rho*t)*cos(2*pi*(y-t)).*sin(2*pi*(x-t));
 sxx_init = @(x,y) ones(size(x));
@@ -24,6 +30,7 @@ syy_init = @(x,y) ones(size(x));
 sxy_init = @(x,y) 0*x;
 p_exact = @(x,y,t) -exp(-16*pi*pi*mu/rho*t)*(cos(4*pi*(x-t))+cos(4*pi*(y-t)));
 
+% Force functions should be split.
 %f = @(x,y,t) {2*sin(x).*cos(y); -2*cos(x).*sin(y)};
 fx = @(x,y,t) 0*x;
 fy = @(x,y,t) 0*x;
@@ -47,7 +54,10 @@ draw_freq = 10;
 draw_stuff(u, v, p, sxx, syy, sxy, t);
 pause(0.01);
 while(abs(T-t) > 1.0e-10)
+    % Calculate next time step. This should be done using a CFL condition.
+    % Write a function called getTimeStep()?
     dt = min(dt, T-t);
+    % Advance solution in time
     [u, v, p, sxx, syy, sxy] = advance_in_time(u,v,p,sxx,syy,sxy,fx,fy,t,dt);
     t = t + dt
     if((mod(iter, draw_freq) == 0) || (abs(T-t) <= 1.0e-10))
@@ -74,6 +84,8 @@ max_p(counter) = max(max(error_p));
 end
 
 % External functions
+% I think this is actually in a seperate function.
+% Probably can be deleted...
 function draw_stuff(u, v, p, sxx, syy, sxy, t)
 % Currently blank...
 global dx; global dy;

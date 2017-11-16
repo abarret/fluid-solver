@@ -1,5 +1,7 @@
 function vals = advect(q,u,v)
-% Computes u*grad(q) using a wave propagation method
+% Computes u*grad(q) using a wave propagation method.
+% Currently first order. Something is missing to make it
+% second order. Not currently sure...
 % Inputs:
 %   q : cell centered quantity to be advected
 %   u : side-centered x velocity component

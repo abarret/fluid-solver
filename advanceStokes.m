@@ -47,7 +47,7 @@ v = v(1:end-1,:);
 % ignore right column of A1 (x side values)
 u = u(:,1:end-1);
 x_vec = [u(:); v(:); p(:)];
-% Solve system. Uses a flexible gmres algorithm alowing the preconditioner
+% Solve system. Uses a flexible gmres algorithm allowing the preconditioner
 % to change between steps.
 [x_vec, res, out, in] = fgmres(@StokesSolve,rhs_vec,x_vec,@projectSolve,1.0e-5,200,5);
 fprintf('\n\nfgmres converged in %d outer iterations with %d inner iterations with residual %f\n\n',out,in,res);

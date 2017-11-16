@@ -1,4 +1,5 @@
 function u = fmg_wrapper(b)
+% Wrapper for fmg to be used as preconditioner.
 tol = 1.0e-5;
 nMax = 5;
 global dx; global dy;
