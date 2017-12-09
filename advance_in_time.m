@@ -1,8 +1,7 @@
-function [u, v, p, sxx, syy, sxy] = advance_in_time(u,v,p,sxx,syy,sxy,fx,fy,t,dt)
-% Solves Navier Stokes Oldroyd-B using a first order Godunov splitting scheme...
+function [u, v, p] = advance_in_time(u,v,p,fx,fy,t,dt)
+% Solves Navier Stokes...
 % u, v         : velocities
 % p            : pressure: used as initial guess for solver
-% sxx, syy, sxy: components of extra stress tensor (not currently used)
 % fx, fy       : is background force functions
 % t            : current time
 % dt           : time-step
@@ -20,6 +19,7 @@ u_k0 = u; v_k0 = v;
 for k = 1:MAX_FP_ITER
     % Stokes solve. Note pressure is *only* used for initial guess
     % for iterative solver
-    [u, v, p] = advanceStokes(u,v,p,u_k0,v_k0,fx,fy,t,dt);
+    [u, v, p] =...
+        advanceStokes(u,v,p,u_k0,v_k0,fx,fy,t,dt);
 end
 end
