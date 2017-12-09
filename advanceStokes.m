@@ -1,5 +1,6 @@
-function [u,v,p] = advanceStokes(u,v,p,u_0,v_0,fx,fy,t,dt)
-% Solves the navier stokes equations
+function [u,v,p] =...
+    advanceStokes(u,v,p,u_0,v_0,fx,fy,t,dt)
+% Solves the Navier Stokes equations
 % Inputs:
 %   u   : side-centered x velocity component
 %   v   : side-centered y velocity component
@@ -18,9 +19,9 @@ global is_periodic;
 gcw = 1;
 % Calculate nonlinear advection term
 [u_advect, v_advect] = fillBoundariesSide(0.5*(u+u_0),0.5*(v+v_0),gcw);
-uu_advect = sideToCell(u_advect,v_advect);
-Nu = advect(0.5*(u+u_0),uu_advect(2:end-1,:,1),0.5*(v_advect(2:end-1,2:end)+v_advect(2:end-1,1:end-1)));
-Nv = advect(0.5*(v+v_0),0.5*(u_advect(1:end-1,2:end-1)+u_advect(2:end,2:end-1)),uu_advect(:,2:end-1,2));
+us_advect = sideToCell(u_advect,v_advect);
+Nu = advect(0.5*(u+u_0),us_advect(2:end-1,:,1),0.5*(v_advect(2:end-1,2:end)+v_advect(2:end-1,1:end-1)));
+Nv = advect(0.5*(v+v_0),0.5*(u_advect(1:end-1,2:end-1)+u_advect(2:end,2:end-1)),us_advect(:,2:end-1,2));
 x_side = 0:dx:Lx; y_side = 0:dy:Ly;
 x_cent = 0.5*(x_side(2:end)+x_side(1:end-1));
 y_cent = 0.5*(y_side(2:end)+y_side(1:end-1));

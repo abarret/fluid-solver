@@ -1,4 +1,4 @@
-function draw_stuff(u, v, p, sxx, syy, sxy, t)
+function draw_stuff(u, v, p, t)
 % Draws a 4 subplots on a single figure. Currently draws the velocity
 % vector field, the magnitude of the velocity, the pressure, and the
 % divergence of the velocity field.
@@ -8,9 +8,6 @@ function draw_stuff(u, v, p, sxx, syy, sxy, t)
 %   u   : side-centered x velocity
 %   v   : side-centered y velocity
 %   p   : cell-centered pressure
-%   sxx : NOT USED
-%   syy : NOT USED
-%   sxy : NOT USED
 %   t   : current time
 global dx; global dy;
 global Lx; global Ly;
@@ -41,12 +38,4 @@ set(h,'edgecolor','none');
 xlabel('x'); ylabel('y');
 title(['div(u) plot t = ' num2str(t)]);
 colorbar;
-% subplot(2,3,5);
-% pcolor(xx,yy,sxx+syy); colorbar
-% xlabel('x'); ylabel('y');
-% title(['tr(S) plot t = ' num2str(t)]);
-% subplot(2,3,6);
-% pcolor(xx,yy,sxy); colorbar
-% xlabel('x'); ylabel('y');
-% title(['sxy plot t = ' num2str(t)]);
 end
